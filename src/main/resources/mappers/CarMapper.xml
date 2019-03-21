@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.petshop.mybatis.mapper.CarMapper">
+    <resultMap id="CarMap" type="Car">
+        <id column="id" property="id"/>
+        <result column="model" property="model"/>
+        <result column="code" property="code"/>
+        <result column="color" property="color"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="CarMap">
+        select * from car
+    </select>
+
+    <insert id="create" parameterType="Car" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CAR(model, code, color) VALUES(#{model}, #{code}, #{color})
+    </insert>
+
+
+    <update id="update" parameterType="Car">
+      UPDATE CAR SET model=#{model}, code=#{code}, color=#{color} WHERE id=#{id}
+    </update>
+
+
+    <delete id="remove" parameterType="Car">
+        DELETE FROM CAR WHERE id=#{id}
+    </delete>
+</mapper>
