@@ -7,5 +7,5 @@ ext version - 6.5.1.345
 Build and launch this project:
 - write right path to sencha cmd in pom.xml
 - make symlink or copy ext sources to client/PetTestClient/ext
-- then run: maven clean install && org.springframework.boot:spring-boot-maven-plugin:2.1.3.RELEASE:run
+- then run: mvn clean install && mvn org.springframework.boot:spring-boot-maven-plugin:2.1.3.RELEASE:run
 - go to http://localhost:8080/petTest/index.html in your browser
