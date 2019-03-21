@@ -30,6 +30,7 @@ Ext.define('PetTestClient.view.main.dialog.Controller', {
                 success: function () {
                     me.getView().up().doClose();
                     var reloadStore = me.getViewModel().get('storeToReload');
+                    me.getViewModel().get('viewToRefresh').getView().getSelectionModel().deselectAll();
                     me.getViewModel().get('viewToRefresh').getView().refresh();
                     if (reloadStore) {
                         reloadStore.reload();
