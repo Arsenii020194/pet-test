@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.3.RELEASE</version>
+	</parent>
+	<groupId>com.petshop</groupId>
+	<artifactId>pet-test</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>pet-test</name>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<client.build.app.dir>${basedir}/src/main/resources/static</client.build.app.dir>
+		<sencha.app.clean.development>generate-sources</sencha.app.clean.development>
+		<sencha.app.build.phase>prepare-package</sencha.app.build.phase>
+		<sencha.app.clean>generate-sources</sencha.app.clean>
+		<sencha.app.build.profile>production</sencha.app.build.profile>
+		<copy.file.phase>prepare-package</copy.file.phase>
+		<senchaCommand>/home/arsenii/bin/Sencha/Cmd/6.7.0.63/sencha</senchaCommand>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>sencha-app-clean-development</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>${sencha.app.clean.development}</phase>
+						<configuration>
+							<executable>${senchaCommand}</executable>
+							<workingDirectory>${basedir}/client/PetTestClient</workingDirectory>
+							<arguments>
+								<argument>app</argument>
+								<argument>clean</argument>
+								<argument>development</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>sencha-app-clean</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>${sencha.app.clean}</phase>
+						<configuration>
+							<executable>${senchaCommand}</executable>
+							<workingDirectory>${basedir}/client/PetTestClient</workingDirectory>
+							<arguments>
+								<argument>app</argument>
+								<argument>clean</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<!-- BUILDING WITH SENCHA CMD -->
+					<execution>
+						<id>sencha-app-build-apps-PetTestClient</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>${sencha.app.build.phase}</phase>
+						<configuration>
+							<executable>${senchaCommand}</executable>
+							<workingDirectory>${basedir}/client/PetTestClient</workingDirectory>
+							<arguments>
+								<argument>app</argument>
+								<argument>build</argument>
+								<argument>testing</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>${copy.file.phase}</phase>
+						<configuration>
+							<target>
+								<copy todir="${client.build.app.dir}"
+									  includeEmptyDirs="false">
+									<fileset dir="${basedir}/client/PetTestClient/build/testing/PetTestClient">
+										<exclude name="**/Readme.md"/>
+									</fileset>
+								</copy>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
